@@ -1,0 +1,11 @@
+agentic_chat:
+  route: "/v1/agentic/chat"
+  methods: ["POST"]
+  use_case: "agentic_chat"
+  payload: "AgenticChatPayload"
+
+search_job_listings:
+  route: "/v1/search_job_listings"
+  methods: ["POST"]
+  use_case: "search_job_listings"
+  payload: "dict"

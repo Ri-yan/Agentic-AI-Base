@@ -1,0 +1,57 @@
+Structure for jobhuntings Agent
+
+jobhuntings_platform/
+│
+├── agents/
+│   ├── base_agent.py                     # Base agent class (load config, init tools)
+│   ├── agent_manager.py                  # Load/route to agent by ID or topic
+│   └── agent_config_loader.py            # Reads agent JSON config and builds agent
+│
+├── tools/
+│   ├── __init__.py
+│   ├── genrate_chart_tool.py             # Your jobhuntings tool
+|   |__ messages.py                       # decides a meaningful message
+│   └── generate_dashlet.py                # Example dashlet tool
+│
+├── prompts/
+│   ├── general/
+│   │   └── jobhuntings_config_prompt.py
+│   └── system/
+│       └── default_system_prompt.txt
+│
+├── config/
+│   └── agents/
+│       └── jobhuntings_agent_config.json          # Agent config like the JSON you posted
+│
+├── models/
+│   ├── query_config_model.py             # LangChain output model
+│   └── schemas.py                        # FastAPI request/response + tool schema
+│
+├── api/
+│   └── routes.py                         # FastAPI endpoints
+│
+├── services/
+│   └── agent_executor.py                 # Logic to execute agent flow
+│
+├── main.py                               # FastAPI entry
+├── requirements.txt
+└── README.md
+
+
+
+
+
+| AgentType                                            | Description / Role                                                                                                                                                                               | Use When                                                                                                                             |
+| ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------ |
+| **ZERO\_SHOT\_REACT\_DESCRIPTION**                   | Uses ReAct (Reasoning and Acting) with tool descriptions. The agent selects tools and reasons through tasks without examples.                                                                    | You want a lightweight agent that chooses tools based on their descriptions, without requiring memory or conversations.              |
+| **CONVERSATIONAL\_REACT\_DESCRIPTION**               | Similar to `ZERO_SHOT_REACT_DESCRIPTION` but supports a conversational memory. Maintains context across turns.                                                                                   | You want an agent to handle multi-turn conversations, using ReAct and remembering previous interactions.                             |
+| **CHAT\_ZERO\_SHOT\_REACT\_DESCRIPTION**             | ReAct-style agent for chat-based models (OpenAI Chat models, Anthropic Claude, etc.), stateless.                                                                                                 | You want chat model compatibility but don't need memory.                                                                             |
+| **CHAT\_CONVERSATIONAL\_REACT\_DESCRIPTION**         | Conversational ReAct agent for chat models with memory and history-awareness.                                                                                                                    | You need a conversational agent using chat models (like GPT-4) that maintains history.                                               |
+| **STRUCTURED\_CHAT\_ZERO\_SHOT\_REACT\_DESCRIPTION** | Similar to `CHAT_ZERO_SHOT_REACT_DESCRIPTION` but with structured tools (input schemas). Uses OpenAI function-calling-style structured tool descriptions.                                        | You want function-calling-like structured tool inputs and responses, but no conversation history.                                    |
+| **OPENAI\_FUNCTIONS**                                | Best suited for OpenAI models that support function calling (like GPT-4, GPT-4o, GPT-3.5-turbo). Tools are treated like functions, input/output is structured, system prompt is fully respected. | You are using OpenAI models and want the most control over prompt, tool schema, and behavior (best for agent identity + guardrails). |
+| **OPENAI\_MULTI\_FUNCTIONS**                         | Same as `OPENAI_FUNCTIONS`, but allows multiple tools to be used in a single invocation.                                                                                                         | You want the agent to use more than one tool in a single reasoning step.                                                             |
+| **OPENAI\_CHAT\_FUNCTIONS** *(Legacy)*               | Older implementation of OpenAI tool-calling via chat messages.                                                                                                                                   | Mostly replaced by `OPENAI_FUNCTIONS`. Use only if you need legacy compatibility.                                                    |
+| **SELF\_ASK\_WITH\_SEARCH**                          | Agent that breaks queries into sub-questions and uses a search tool to resolve them step by step.                                                                                                | You need the agent to decompose complex queries and use a search API.                                                                |
+| **TOOL\_FUNCTIONS**                                  | Newer, unified function-calling-based interface for tools. Allows structured inputs like OpenAI functions.                                                                                       | Advanced use cases needing structured inputs/output and multiple tools.                                                              |
+
+

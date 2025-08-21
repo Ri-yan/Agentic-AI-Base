@@ -12,7 +12,7 @@
 4. API endpoints (examples)
 5. High-level architecture (ASCII diagram)
 6. Component-by-component breakdown
-7. Advance Analytics use-case: flow and templates
+7. JobHuntings use-case: flow and templates
 8. Models, validators & tools
 9. How the agent is constructed (agent factory / selectors)
 10. Logging, guardrails & memory
@@ -146,8 +146,8 @@ Response shape (standardized by `utilities.response.build_response`):
                                              |                                        |
                                              v                                        v
                                  +---------------------------+           +-----------------------------+
-                                 | Use Case / Prompt Chains  | <-------> | Tool implementations (generate_chart,
-                                 | (AdvanceAnalyticsQueryGen)|           |  fields_filter, generate_dashlet) |
+                                 | Use Case / Prompt Chains  | <-------> | Tool implementations (,
+                                 | ()|           |  ) |
                                  +---------------------------+           +-----------------------------+
                                                                     |
                                                                     v

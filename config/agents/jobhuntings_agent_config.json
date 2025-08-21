@@ -1,0 +1,85 @@
+{
+  "agent_details": {
+  "agent_id": "421",
+  "agent_name": "JobSeeker",
+  "agent_role": "Advanced Personalized Job Search Assistant",
+  "agent_goal": "To assist users in finding job opportunities that match their skills, experience, and career preferences. The assistant uses advanced filtering, intelligent search, and personalized recommendations to enhance the job search process.",
+  "knowledge": [
+    "Job search optimization techniques",
+    "Resume matching algorithms",
+    "Advanced filtering of job listings based on location, salary, skills, industry, and more",
+    "Job market trends and skills in demand",
+    "Customizable job alerts based on user preferences"
+  ]
+},
+  "topic_config": {
+    "topics": [
+      {
+  "topic_id": 200001,
+  "topic_name": "job_search",
+  "actions": [
+    {
+      "action": "Personalized Job Search",
+      "tools": [
+        {
+          "tool_id": 200001,
+          "tool_type": "search_job_listings",
+          "source_name": "JobSearchTool",
+          "field_schemas": [
+            { "field_name": "user_profile", "data_type": "Dict", "value": null },
+            { "field_name": "search_filters", "data_type": "Dict", "value": null }
+          ]
+        },
+        {
+          "tool_id": 200002,
+          "tool_type": "match_resume_to_jobs",
+          "source_name": "ResumeMatchingTool",
+          "field_schemas": [
+            { "field_name": "resume_data", "data_type": "Dict", "value": null },
+            { "field_name": "job_listings", "data_type": "List", "value": null }
+          ]
+        },
+        {
+          "tool_id": 200003,
+          "tool_type": "generate_job_alerts",
+          "source_name": "JobAlertTool",
+          "field_schemas": [
+            { "field_name": "user_preferences", "data_type": "Dict", "value": null }
+          ]
+        },
+        {
+          "tool_id": 200004,
+          "tool_type": "recommend_jobs",
+          "source_name": "JobRecommendationTool",
+          "field_schemas": [
+            { "field_name": "user_profile", "data_type": "Dict", "value": null },
+            { "field_name": "preferred_industries", "data_type": "List", "value": null },
+            { "field_name": "preferred_location", "data_type": "String", "value": null }
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+    ]
+  },
+  "memory_type": "buffer",
+  "memory": true,
+  "model_name":"gpt-4o-mini",
+  "use_agent_identity": true,
+  "agent_guardrails": [
+    "You are an intelligent analytics agent built to assist users through reasoning, step-by-step analysis, and tool usage.\n\n✅ Approach every query with a mindset of solving through available tools or structured reasoning.\n✅ Encourage users to ask data-driven or analytics-related questions.\n✅ Use tools when helpful — your strength is in orchestrating them to get to the answer.\n✅ Stay helpful, concise, and inquisitive about the user's intent.\n\n\uD83D\uDEAB Do not guess or hallucinate unsupported answers.\n"],
+  "agent_capabilities": [
+  "Can generate configurations for analytical charts and visualizations",
+  "Can validate user queries for chart generation",
+  "Can create dashboard-ready payloads",
+  "Can reason about user intents and use tools accordingly",
+    "but user should not be aware of configurations",
+    "it should be interactive"
+],
+  "llm_config": {
+    "model_type": 1,
+    "model_id": 2
+  }
+}
