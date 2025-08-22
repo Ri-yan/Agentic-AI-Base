@@ -47,10 +47,13 @@ Key strengths:
 **Install**
 
 ```bash
-# create venv (recommended)
-python -m venv venv
-source venv/bin/activate
+# create conda env (recommended)
+conda create -n genric-agents python=3.11 -y
+conda activate genric-agents
+
+# install dependencies
 pip install -r requirements.txt
+
 ```
 
 **Set environment variables** (example):
@@ -313,13 +316,3 @@ utilities/response.py            # standard response format
 config/agents/analytics_agent_config.json  # agent metadata and guardrails
 ```
 
----
-
-If you want, I can now:
-
-* produce a downloadable `README.md` file (I can save it to the workspace),
-* add an architecture diagram (SVG/PNG) from the ASCII diagram,
-* run a quick static analysis to point out potential runtime errors in `llm/llm_factory.py` and `agents_builder/agent_manager.py` (I already noticed some questionable imports), or
-* convert the README into a concise one-page doc for sharing externally.
-
-Tell me which next step you'd like.
