@@ -1,7 +1,8 @@
 # Genric Agents
 
-> **Purpose:** This repository implements **Graphy**, an analytics-focused conversational agent that analyzes schema information and user queries to generate validated chart/dashlet payloads and query templates. It supports multiple agent frameworks (LangChain, LangGraph, CrewAI) and is organized to separate API, agent orchestration, tools, and use-cases.
+> **Purpose:** This repository implements **Jobseekers**, a job search conversational agent that analyzes resume information and user queries to provide personalized job recommendations and even apply to roles on the user’s behalf.  
 
+It supports multiple agent frameworks — **LangChain**, **LangGraph**, and **CrewAI** — and follows a modular architecture that separates concerns across API, agent orchestration, tools, and use-cases.
 ---
 
 ## Table of contents
