@@ -25,7 +25,7 @@ It supports multiple agent frameworks — **LangChain**, **LangGraph**, and **Cr
 
 ## 1. Project overview
 
-This project provides a modular agent platform focused on analytics (chart/dashlet generation). The major goals:
+This project provides a modular agent platform focused on job helping buddy. The major goals:
 
 * Accept a user prompt + schema details and return chart-ready JSON payloads.
 * Validate model outputs with Pydantic models (SchemaModel, GraphDataModel, QueryConfigModel).
