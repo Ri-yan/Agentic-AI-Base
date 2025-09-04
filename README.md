@@ -22,6 +22,8 @@ It supports multiple agent frameworks — **LangChain**, **LangGraph**, and **Cr
 13. Extensions, improvements & TODOs
 
 ---
+[![Agents](https://github.com/user-attachments/assets/1edea1e9-e1c5-4e35-81e3-b4acc7d57b44)](https://github.com/Ri-yan/Agentic-AI-Base)
+
 
 ## 1. Project overview
 
