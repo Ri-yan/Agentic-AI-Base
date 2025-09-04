@@ -29,10 +29,10 @@ It supports multiple agent frameworks — **LangChain**, **LangGraph**, and **Cr
 
 This project provides a modular agent platform focused on job helping buddy. The major goals:
 
-* Accept a user prompt + schema details and return chart-ready JSON payloads.
+* Accept a user prompt + schema  JSON payloads.
 * Validate model outputs with Pydantic models (SchemaModel, GraphDataModel, QueryConfigModel).
 * Support multiple underlying agent runtimes (LangChain, LangGraph, CrewAI).
-* Provide pluggable tools (generate chart/dashlet/query handler) and memory backends.
+* Provide pluggable tools  and memory backends.
 
 Key strengths:
 
@@ -106,13 +106,13 @@ curl -X POST http://localhost:8025/api/agent/chat \
     "sessionId": "session-123",
     "prompt": "Show me monthly leads by source",
     "payload": {
-      "schema_details": {"table_name":"LeadsBaseView","db_type":"mssql","fields":[]},
+      "details": {"table_name":"view","fields":[]},
       "query": "monthly leads split by source"
     }
   }'
 ```
 
-`POST /api/genai/run` — directly invokes the `AdvanceAnalyticsUseCase` with arbitrary dict payload for quick testing.
+`POST /api/genai/run` — directly invokes the `JobHuntingsUseCase` with arbitrary dict payload for quick testing.
 
 Response shape (standardized by `utilities.response.build_response`):
 
@@ -191,19 +191,10 @@ Response shape (standardized by `utilities.response.build_response`):
 * `memory_factory.py` — provides memory backends for each supported framework (LangChain conversation memory or CrewAI memory wrappers).
 * `selector/` — contains per-framework constructors: `langchain_selector.py`, `langgraph_selector.py`, `crewai_selector.py`. Each wraps the LLM, memory and tools into a framework-specific agent and exposes a unified `run` interface.
 
-**`usecases/analytics_gpt/charts_genrator_usecase/`**
-
-* Implements the `AdvanceAnalyticsQueryGenerator` use case which:
-
-  * analyzes query intent (QueryConfig)
-  * generates a SchemaModel describing fields/filters/group/order
-  * generates GraphData (chart config) suitable for front-end widgets
-  * validates all intermediate outputs using Pydantic models
-* Contains `templates/` for LLM prompts, `models/` for Pydantic models, `tools/` and `validators/`.
 
 **`tools/`**
 
-* Global tools that can be mounted onto agents: `generate_chart_tool`, `generate_dashlet_tool`, `query_handler_tool`. These call into the AdvanceAnalytics generator or other helpers.
+* Global tools that can be mounted onto agents: `various tools`. These call into the JobsHunting generator or other helpers.
 
 **`resources/`**
 
@@ -214,15 +205,9 @@ Response shape (standardized by `utilities.response.build_response`):
 
 * Standardized response builder used across wrappers.
 
-## 7. Advance Analytics use-case: flow and templates
+## 7. JobsHunting use-case: flow and templates
 
-Core flow (inside `AdvanceAnalyticsQueryGenerator.generate`):
-
-1. **Query analysis** — run query analysis template to classify the user request and produce `QueryConfig` (isValidQuery, multiResponse, widgetType, fieldsMentioned, etc.).
-2. **Schema model generation** — If valid and a chart-type request, generate a `SchemaModel` describing Fields, Filters, GroupBy, OrderBy, BatchSize and other schema related metadata.
-3. **Graph (chart) generation** — Using `SchemaModel` and graph-type preferences, generate `GraphDataModel` payloads for frontend visualizations.
-4. **Validation** — Each raw LLM output is parsed and validated via Pydantic models in `validators.validators._validate_model`. This removes common LLM output wrappers (`json` etc.) and ensures strict typing.
-5. **Filtering & Tooling** — `fields_filter_tool` is used to map natural-language mentions to actual schema fields.
+Core flow (inside `JobsHuntingGenerator`):
 
 The use-case uses multiple templated prompts (in `templates/`) to keep each step focused and reproducible.
 
@@ -230,16 +215,11 @@ The use-case uses multiple templated prompts (in `templates/`) to keep each step
 
 **Pydantic models** (key ones):
 
-* `QueryConfigModel` — intent classification and metadata
-* `SchemaModelOutput` — Fields/Filters/Group/Order structure
-* `GraphDataModel` — Chart payload (graphs, categoryField, dataProvider, axes)
-
 **Validators** ensure the LLM outputs strictly conform to the expected schema; they also strip markdown/code fences commonly emitted by LLMs.
 
 **Tools**
 
 * `fields_filter_tool` — simple keyword partial-matching filter that returns candidate field definitions.
-* `generate_chart_tool` / `generate_dashlet_tool` — thin wrappers which call the AdvanceAnalytics generator and return `utilities.response.build_response` style objects.
 
 ## 9. How the agent is constructed (agent factory / selectors)
 
@@ -270,7 +250,7 @@ Flow when a request comes in:
 
 * Enable debug logs via python logging configuration.
 * Run `uvicorn main:app --reload` and call endpoints with simple payloads first.
-* Re-run a failing step manually: the AdvanceAnalytics class exposes `_generate_chain_run` type methods — wrap them to print raw LLM output to debug.
+* Re-run a failing step manually: the  class exposes `_generate_chain_run` type methods — wrap them to print raw LLM output to debug.
 
 ## 12. Deployment & production notes
 
@@ -312,7 +292,7 @@ agents_builder/                  # Agent factory, tool adapter, memory adapter
   - tool_factory.py
   - memory_factory.py
   - selector/ (langchain, langgraph, crewai)
-usecases/analytics_gpt/          # Advance analytics use-case, templates, validators
+usecases/agents/          # agents use-case, templates, validators
 tools/                           # application-level tools mounted into agents
 resources/                       # config.env + logging
 utilities/response.py            # standard response format
